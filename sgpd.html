@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>SGPD - Sistema de Projetos</title>
+  <style>
+    body { font-family: Arial; margin: 0; background: #f4f4f4; }
+    header { background: #2c3e50; color: white; padding: 15px; }
+    nav { background: #34495e; padding: 10px; }
+    nav button { margin-right: 10px; padding: 10px; color: white; background: #2c3e50; border: none; cursor: pointer; }
+    section { display: none; padding: 20px; }
+    .active { display: block; }
+    input, button { padding: 10px; margin: 5px 0; width: 100%; }
+    .card { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h2>SGPD - Sistema de Gestão de Projetos</h2>
+</header>
+
+<nav id="menu" style="display:none;">
+  <button onclick="mostrar('dashboard')">Dashboard</button>
+  <button onclick="mostrar('projetos')">Projetos</button>
+  <button onclick="mostrar('cadastro')">Novo Projeto</button>
+</nav>
+
+<!-- LOGIN -->
+<section id="login" class="active">
+  <h3>Login</h3>
+  <input type="text" placeholder="Email">
+  <input type="password" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+  <h3>Dashboard</h3>
+  <p>Projetos ativos: 3</p>
+  <p>Projetos concluídos: 1</p>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <h3>Lista de Projetos</h3>
+  <div id="lista"></div>
+</section>
+
+<!-- CADASTRO -->
+<section id="cadastro">
+  <h3>Novo Projeto</h3>
+  <input id="nome" placeholder="Nome do projeto">
+  <input id="desc" placeholder="Descrição">
+  <button onclick="adicionar()">Salvar</button>
+</section>
+
+<script>
+  let projetos = [];
+
+  function mostrar(tela) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(tela).classList.add("active");
+  }
+
+  function login() {
+    document.getElementById("menu").style.display = "block";
+    mostrar('dashboard');
+  }
+
+  function adicionar() {
+    let nome = document.getElementById("nome").value;
+    let desc = document.getElementById("desc").value;
+
+    if(nome === "") return alert("Digite o nome");
+
+    projetos.push({nome, desc});
+    listar();
+    mostrar('projetos');
+  }
+
+  function listar() {
+    let lista = document.getElementById("lista");
+    lista.innerHTML = "";
+
+    projetos.forEach(p => {
+      lista.innerHTML += `
+        <div class="card">
+          <strong>${p.nome}</strong><br>
+          ${p.desc}
+        </div>
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>
